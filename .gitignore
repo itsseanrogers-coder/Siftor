@@ -33,3 +33,5 @@ Library/_work/tools/*
 !Library/_work/tools/index_template.html
 !Library/_work/tools/photos/
 *_before_*
+
+siftor.json
