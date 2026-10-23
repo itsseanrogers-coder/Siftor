@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 SP = os.path.dirname(os.path.abspath(__file__))
 import sys
 SHEETS = os.path.expanduser("~/Desktop/Bahlman Media App" if sys.platform == "darwin" else "~/mnt/Bahlman Media App")   # contact sheets (Expansion at top level, My Book under "My Book/")
-OUT = os.path.join(SHEETS, "Sean (DON'T TOUCH)")
+OUT = os.path.join(SHEETS, "Library")
 # all contact sheets live in "Contact Sheets/" (Expansion under "Contact Sheets/Expansion/"); stored sheet paths are relative to that
 def sheet_dir(drive): return "Contact Sheets/Expansion/" if drive == "Expansion" else "Contact Sheets/"       # page, database, thumbs, photos, work files
 if sys.platform == "darwin":

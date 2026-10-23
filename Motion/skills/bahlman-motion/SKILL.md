@@ -27,7 +27,7 @@ Footage itself: `search_footage`, `get_clip`, `list_people` (same connector). Pr
 3. **Draft** → use it, but tell Sean it's still a draft and anything you'd change.
 4. **Missing** → draft one with huashu-motion's director method, from real material:
    - Read `motion_knowledge("huashu:director")` §1–§3 and the chart in `motion_knowledge("huashu:library/README")`.
-   - Look at the client's real footage first (`search_footage` with `client=`, contact sheets / thumbnails under `Sean (DON'T TOUCH)/_thumbs/`) — stage screens, slides, logos, merch. The palette and type come from what you see, never invented; say which values are sampled/approximate.
+   - Look at the client's real footage first (`search_footage` with `client=`, contact sheets / thumbnails under `Library/_thumbs/`) — stage screens, slides, logos, merch. The palette and type come from what you see, never invented; say which values are sampled/approximate.
    - Score the five personality sliders (−2…+2) from that evidence and write the one-sentence brief.
    - Pick 1–2 motion languages and 1–3 atlas looks (`search_atlas`) that fit the message shape × personality.
    - For every graphic kind (opener, title, lower-third, captions, stat, quote, transition, end-card) write how it looks and which engine makes it.

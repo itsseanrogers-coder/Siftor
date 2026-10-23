@@ -113,7 +113,7 @@ def make_app():
 
 def scan(app_dir, out_dir, db, limit=None):
     import cv2
-    lib = os.path.join(app_dir, "Sean (DON'T TOUCH)")
+    lib = os.path.join(app_dir, "Library")
     clips = [json.loads(l) for l in open(os.path.join(lib, "clips.jsonl"), encoding="utf-8")]
     done = {r[0] for r in db.execute("select clip from done")}
     todo = [c for c in clips if c["id"] not in done]
@@ -179,7 +179,7 @@ def scan(app_dir, out_dir, db, limit=None):
 
 def scan_photos(app_dir, out_dir, db, limit=None, app=None):
     import cv2
-    lib = os.path.join(app_dir, "Sean (DON'T TOUCH)")
+    lib = os.path.join(app_dir, "Library")
     photos = load_photos(lib)
     done = {r[0] for r in db.execute("select clip from done where clip like 'ph_%'")}
     todo = [p for p in photos if PHOTO + p["id"] not in done]
@@ -410,7 +410,7 @@ def apply_edits(people, faces, edits):
 
 
 def export(app_dir, out_dir, db):
-    lib = os.path.join(app_dir, "Sean (DON'T TOUCH)")
+    lib = os.path.join(app_dir, "Library")
     clips = {c["id"]: c for c in (json.loads(l) for l in open(os.path.join(lib, "clips.jsonl"), encoding="utf-8"))}
     photos = {PHOTO + p["id"]: p for p in load_photos(lib)}
     meta = dict(clips); meta.update(photos)

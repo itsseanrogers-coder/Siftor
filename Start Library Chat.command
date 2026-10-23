@@ -3,7 +3,7 @@
 # Runs a free, open-source AI model on this Mac (Ollama). Nothing leaves the computer; footage is only read.
 # Keep this window open while you use the chat. Close it to stop the chat and free up memory.
 APP="$HOME/Desktop/Bahlman Media App"
-T="$APP/Sean (DON'T TOUCH)/_work/tools"
+T="$APP/Library/_work/tools"
 PY="$APP/venv/bin/python"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 cd "$T" || exit 1

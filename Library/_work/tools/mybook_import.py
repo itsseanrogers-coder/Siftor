@@ -10,7 +10,7 @@ from PIL import Image
 
 MB_ROOT = "/Volumes/My Book/31892AZ/Bahlman Media/"
 LIB = os.path.expanduser("~/Desktop/Bahlman Media App")
-OUT = os.path.join(LIB, "Sean (DON'T TOUCH)")
+OUT = os.path.join(LIB, "Library")
 SRC_DB = MB_ROOT + "_Contact Sheets/footage.db"
 THUMB_SRC = os.path.join(OUT, "_work", "mybook_thumbs_src")
 

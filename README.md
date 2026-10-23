@@ -6,7 +6,7 @@ This first commit is the code from Sean's working Mac folder ("Bahlman Media App
 
 | Folder | Step |
 |---|---|
-| `Sean (DON'T TOUCH)/_work/tools/` | Catalog scripts, Library build, Library server (chat, player, transcription) |
+| `Library/_work/tools/` | Catalog scripts, Library build, Library server (chat, player, transcription) |
 | `Ideate/` | Step 2: find footage for a video idea |
 | `Pipeline/` | Step 3: production board and storyboard |
 | `Review/` | Step 4: review page |
