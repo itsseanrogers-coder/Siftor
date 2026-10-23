@@ -1,9 +1,9 @@
 """Writes what is in a clip from its 12-frame contact sheet, in the same fields the Library has always used:
 desc, content, shot, setting, people, tags, quality. Two engines, chosen under "describe" in siftor.json:
 
+  local   (default) a vision model in Ollama on this Mac (free, nothing leaves the computer, weaker descriptions).
   claude  Claude through Anthropic's API (best results). The contact sheet's still frames are sent; footage never is.
           Needs ANTHROPIC_API_KEY (or an `ant auth login` profile) and "consent_send_stills": true.
-  local   a vision model in Ollama on this Mac (free, nothing leaves the computer, weaker descriptions).
 """
 import base64, json, os, urllib.request
 
@@ -53,7 +53,7 @@ class Stop(Exception):
 
 
 def label(cfg):
-    return f"Claude ({cfg.get('model', 'claude-opus-5-5')})" if cfg.get("engine", "claude") == "claude" else \
+    return f"Claude ({cfg.get('model', 'claude-opus-5-5')})" if cfg.get("engine", "local") == "claude" else \
         f"the local model {cfg.get('local_model', 'qwen2.5vl:7b')}"
 
 
@@ -64,7 +64,7 @@ def _clean(d):
 
 
 def engine(cfg):
-    return _claude(cfg) if cfg.get("engine", "claude") == "claude" else _local(cfg)
+    return _claude(cfg) if cfg.get("engine", "local") == "claude" else _local(cfg)
 
 
 # ---------------------------------------------------------------- Claude

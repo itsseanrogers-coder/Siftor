@@ -24,9 +24,10 @@ and opens it: list the footage folders (each with a short `name`), then double-c
 1. **scan** finds every video file in the footage folders. New files get an id (`C00001`...), changed files are redone,
    files that disappeared drop out of the Library. A drive that isn't plugged in is skipped and keeps its clips.
 2. **sheets** makes a 12-frame contact sheet per clip into `Contact Sheets/<folder name>/`.
-3. **describe** writes what's in each clip from its contact sheet: Claude (needs an Anthropic API key in
-   `~/Library/Application Support/Siftor/anthropic_api_key` and `"consent_send_stills": true`, because still frames
-   are sent to Anthropic) or a local Ollama model (`"engine": "local"`), or `"off"`.
+3. **describe** writes what's in each clip from its contact sheet. The first run asks which AI to use (change it
+   later with `Siftor Ingest.command --setup`): a free local model in Ollama (the default, nothing leaves the Mac),
+   or Claude (better descriptions; still frames are sent to Anthropic, so it needs the customer's API key and
+   `"consent_send_stills": true`), or off.
 4. **build** writes `Library/footage.db`, `clips.jsonl`, `clips.js`, thumbnails and `Library/index.html`.
 5. **transcribe** runs Whisper on the clips whose description says people talk (podcast, interview, talking-head,
    testimonial by default).

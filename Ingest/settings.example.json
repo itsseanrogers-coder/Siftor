@@ -3,7 +3,8 @@
     {"name": "Footage", "path": "/Volumes/Footage"}
   ],
   "describe": {
-    "engine": "claude",
+    "engine": "local",
+    "local_model": "qwen2.5vl:7b",
     "model": "claude-opus-5-5",
     "consent_send_stills": false
   },

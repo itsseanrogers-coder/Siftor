@@ -7,11 +7,8 @@ SUP="$HOME/Library/Application Support/Siftor"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 cd "$APP" || exit 1
 
-if [ ! -f siftor.json ]; then
-  cp Ingest/settings.example.json siftor.json
-  echo "First run: siftor.json was created. List your footage folders in it (it opens now), save, then double-click again."
-  open -e siftor.json; read -n1 -p "Press any key to close."; exit 0
-fi
+FIRST=""
+if [ ! -f siftor.json ]; then cp Ingest/settings.example.json siftor.json; FIRST=1; fi
 command -v ffmpeg >/dev/null || { echo "Installing ffmpeg (one time)..."; brew install ffmpeg || { echo "ffmpeg install failed"; read -n1; exit 1; }; }
 
 VENV="$SUP/venv"; mkdir -p "$SUP"
@@ -21,6 +18,25 @@ if [ ! -x "$VENV/bin/python" ]; then
 fi
 "$VENV/bin/python" -c "import PIL, anthropic" 2>/dev/null || "$VENV/bin/pip" install -q --upgrade pillow anthropic \
   || { echo "Install failed - check the internet connection and double-click again."; read -n1; exit 1; }
+
+if [ -n "$FIRST" ] || [ "$1" = "--setup" ]; then
+  "$VENV/bin/python" Ingest/setup_describe.py siftor.json
+  [ "$1" = "--setup" ] && shift
+fi
+if [ -n "$FIRST" ]; then
+  echo; echo "Last step: list your footage folders in siftor.json (it opens now), save it, then double-click again."
+  open -e siftor.json; read -n1 -p "Press any key to close."; exit 0
+fi
+
+# the local describer runs in Ollama: install it, start it and download the model the first time
+if grep -q '"engine": *"local"' siftor.json; then
+  command -v ollama >/dev/null || { echo "Installing Ollama (one time)..."; brew install ollama; }
+  if command -v ollama >/dev/null; then
+    curl -s -m 2 http://127.0.0.1:11434/api/tags >/dev/null || { nohup ollama serve >> "$SUP/ollama.log" 2>&1 & sleep 3; }
+    MODEL=$("$VENV/bin/python" -c "import json; print(json.load(open('siftor.json')).get('describe', {}).get('local_model', 'qwen2.5vl:7b'))")
+    ollama list | grep -q "^$MODEL" || { echo "Downloading the local model $MODEL (one time, about 6 GB)..."; ollama pull "$MODEL"; }
+  fi
+fi
 
 # Anthropic API key for clip descriptions: kept in this Mac's Application Support, never in the Siftor folder.
 [ -z "$ANTHROPIC_API_KEY" ] && [ -f "$SUP/anthropic_api_key" ] && export ANTHROPIC_API_KEY="$(cat "$SUP/anthropic_api_key")"

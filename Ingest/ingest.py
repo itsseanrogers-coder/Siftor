@@ -152,7 +152,7 @@ def make_sheets(db, settings, limit):
 def describe_all(db, settings, limit):
     import describe
     cfg = settings.get("describe", {})
-    engine = cfg.get("engine", "claude")
+    engine = cfg.get("engine", "local")
     if engine == "off":
         log("describe: turned off in siftor.json"); return
     if engine == "claude" and not cfg.get("consent_send_stills"):
