@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" data-om-signature="off" data-composition-variables='[
+  {"id":"kicker","type":"string","label":"Kicker","default":"LIVE EVENT RECAP"},
+  {"id":"title","type":"string","label":"Event","default":"OWNERS CLUB"},
+  {"id":"place","type":"string","label":"Place","default":"HUNTINGTON BEACH"},
+  {"id":"date","type":"string","label":"Date","default":"SEPT 28 · 2026"},
+  {"id":"accent","type":"color","label":"Accent","default":"#d79f46","group":"Brand"},
+  {"id":"ink","type":"color","label":"Text","default":"#ffffff","group":"Brand"},
+  {"id":"dark","type":"color","label":"Dark","default":"#0b0b0d","group":"Brand"},
+  {"id":"display","type":"enum","label":"Display face","options":["Cinzel","Anton"],"default":"Cinzel","group":"Brand"},
+  {"id":"solid","type":"boolean","label":"Solid background (not an overlay)","default":false},
+  {"id":"endHold","type":"number","label":"Hold before exit (s)","default":1.4,"min":0,"max":6,"step":0.1,"group":"Timing"}
+]'>
+<head>
+<meta charset="utf-8">
+<title>Event opener · Bahlman motion library (huashu-motion)</title>
+<script>
+  // Storyboard preview: index.html#preview={"title":"…"} plays the film in a loop with those values.
+  // A render (om render) loads the file without the hash, so none of this runs there.
+  (function () {
+    const m = location.hash.match(/^#preview=(.*)$/);
+    if (!m) return;
+    try { window.__omVariables = JSON.parse(decodeURIComponent(m[1])); } catch (e) { window.__omVariables = {}; }
+    window.__omConfig = { video: 'live' };
+    window.__omPreview = true;
+  })();
+</script>
+<script src="vendor/om-engine.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/om.js"></script>
+<style id="om-fonts">
+@font-face { font-family: "Cinzel"; src: url("assets/fonts/Cinzel-700.woff") format("woff"); font-weight: 700; }
+@font-face { font-family: "Cinzel"; src: url("assets/fonts/Cinzel-400.woff") format("woff"); font-weight: 400; }
+@font-face { font-family: "Anton"; src: url("assets/fonts/Anton-400.woff") format("woff"); font-weight: 400; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-var.woff") format("woff"); font-weight: 100 900; }
+</style>
+<style>
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: transparent; }
+  /* sizes follow the frame (cqw/cqh), so the same film renders 16:9 and 9:16 */
+  #film { position: relative; width: 100%; height: 100%; overflow: hidden; container-type: size; color: var(--ink); font-family: "Inter", sans-serif; }
+  .bg { position: absolute; inset: 0; background: radial-gradient(75% 70% at 50% 45%, color-mix(in srgb, var(--dark) 70%, #2a2014), var(--dark)); }
+  .scrim { position: absolute; inset: 0; background: radial-gradient(60% 45% at 50% 50%, color-mix(in srgb, var(--dark) 72%, transparent), transparent 75%); }
+  #world { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .rule { height: max(3px, .35cqmin); width: min(46cqw, 90cqmin); background: linear-gradient(90deg, transparent, var(--accent) 30%, var(--accent) 70%, transparent); }
+  .rule.a { margin-bottom: 3.4cqmin; }
+  .rule.b { margin-top: 3cqmin; }
+  .kicker { font-weight: 600; font-size: 2.6cqmin; letter-spacing: 1.4cqmin; color: var(--accent); text-transform: uppercase; white-space: nowrap; margin-bottom: 2.6cqmin; }
+  .title { position: relative; margin: 0; font-family: var(--display), serif; font-weight: 700; font-size: min(13cqmin, calc(150cqw / var(--len))); line-height: 1; letter-spacing: .04em; white-space: nowrap; text-shadow: 0 1.5cqmin 5cqmin rgba(0,0,0,.45); }
+  .title .ch { display: inline-block; }
+  .title .shine { position: absolute; inset: -10% -5%; background: linear-gradient(100deg, transparent 40%, color-mix(in srgb, var(--accent) 60%, #fff) 50%, transparent 60%); mix-blend-mode: overlay; opacity: .0; pointer-events: none; }
+  .meta { display: flex; align-items: center; gap: 2.4cqmin; margin-top: 3cqmin; font-weight: 600; font-size: 2.4cqmin; letter-spacing: .9cqmin; text-transform: uppercase; white-space: nowrap; }
+  .meta .dot { width: 1cqmin; height: 1cqmin; border-radius: 50%; background: var(--accent); }
+  .dust { position: absolute; inset: 0; pointer-events: none; }
+  .dust i { position: absolute; width: .45cqmin; height: .45cqmin; border-radius: 50%; background: var(--accent); box-shadow: 0 0 1.4cqmin var(--accent); opacity: 0; }
+</style>
+</head>
+<body>
+<div id="film" data-composition-id="film" data-width="1920" data-height="1080">
+  <div class="bg" data-om-id="background"></div>
+  <div class="scrim" data-om-id="scrim"></div>
+  <div class="dust" id="dust"></div>
+  <div id="world">
+    <div class="kicker" data-om-id="kicker" data-var-text="kicker">LIVE EVENT RECAP</div>
+    <div class="rule a" data-om-id="rule-top"></div>
+    <h1 class="title" data-om-id="title" data-om-var="title"></h1>
+    <div class="rule b" data-om-id="rule-bottom"></div>
+    <div class="meta" data-om-id="meta"><span data-var-text="place">HUNTINGTON BEACH</span><i class="dot"></i><span data-var-text="date">SEPT 28 · 2026</span></div>
+  </div>
+</div>
+
+<script>
+  const V = OM.vars();
+  const root = document.getElementById('film');
+  const esc = (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' })[c] || c;
+  const title = document.querySelector('.title');
+  title.style.setProperty('--len', Math.max(6, [...V.title].length));
+  title.innerHTML = [...V.title].map((c) => c === ' ' ? '<span class="ch">&nbsp;</span>' : `<span class="ch">${esc(c)}</span>`).join('') + '<span class="shine"></span>';
+  root.style.setProperty('--display', V.display === 'Anton' ? '"Anton"' : '"Cinzel"');
+  if (!V.solid) document.querySelector('.bg').style.display = 'none'; else document.querySelector('.scrim').style.display = 'none';
+
+  // gold dust: seeded, so every frame is a pure function of time
+  const rnd = OM.random ? OM.random(7) : Math.random;
+  const dust = document.getElementById('dust');
+  const motes = Array.from({ length: 34 }, () => { const i = document.createElement('i'); i.style.left = (rnd() * 100) + '%'; i.style.top = (30 + rnd() * 45) + '%'; dust.appendChild(i); return i; });
+
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+  const hold = Math.max(0, V.endHold);
+
+  // hook: the two gold rules whip in from opposite sides and meet the frame
+  tl.addLabel('scene:hook', 0)
+    .fromTo('.rule.a', { x: '-70cqw', scaleX: .4, opacity: 0 }, { x: 0, scaleX: 1, opacity: 1, duration: .7 }, 0)
+    .fromTo('.rule.b', { x: '70cqw', scaleX: .4, opacity: 0 }, { x: 0, scaleX: 1, opacity: 1, duration: .7 }, .06)
+    .fromTo('.scrim', { opacity: 0 }, { opacity: 1, duration: .5, ease: 'power2.out' }, 0)
+    .fromTo('.bg', { opacity: 0 }, { opacity: 1, duration: .4, ease: 'power2.out' }, 0)
+    .fromTo('.kicker', { letterSpacing: '4cqmin', opacity: 0 }, { letterSpacing: '1.4cqmin', opacity: 1, duration: 1.1 }, .2);
+
+  // burst: the event name slams in letter by letter, then light runs across it
+  tl.addLabel('scene:title', .45)
+    .fromTo('.title .ch', { scale: 1.9, opacity: 0, filter: 'blur(14px)', yPercent: -8 },
+      { scale: 1, opacity: 1, filter: 'blur(0px)', yPercent: 0, duration: .55, stagger: { each: .045 }, ease: 'back.out(1.6)' }, .45)
+    .fromTo('.title .shine', { xPercent: -120, opacity: 0 }, { xPercent: 120, opacity: 1, duration: .9, ease: 'power2.inOut' }, 1.15)
+    .to('.title .shine', { opacity: 0, duration: .2 }, 1.95)
+    .fromTo('.meta span', { y: '2cqmin', opacity: 0 }, { y: 0, opacity: 1, duration: .7, stagger: .12 }, 1.35)
+    .fromTo('.meta .dot', { scale: 0 }, { scale: 1, duration: .5, ease: 'back.out(3)' }, 1.45);
+  motes.forEach((m, k) => {
+    const d = 1.2 + rnd() * 2.2, at = .9 + rnd() * 1.4;
+    tl.fromTo(m, { opacity: 0, y: 0, x: 0 }, { opacity: .2 + rnd() * .7, y: -(4 + rnd() * 14) + 'cqh', x: (rnd() - .5) * 8 + 'cqw', duration: d, ease: 'none' }, at)
+      .to(m, { opacity: 0, duration: .5, ease: 'none' }, at + d - .5);
+  });
+
+  // hold with a slow push, then the exit: rules retract, the title wipes away
+  const out = 2.2 + hold;
+  tl.addLabel('scene:hold', 2.2)
+    .fromTo('#world', { scale: 1 }, { scale: 1.035, duration: out - .4 + .6, ease: 'none' }, .4)
+    .addLabel('scene:exit', out)
+    .to('.rule.a', { x: '60cqw', scaleX: .3, opacity: 0, duration: .5, ease: 'power3.in' }, out)
+    .to('.rule.b', { x: '-60cqw', scaleX: .3, opacity: 0, duration: .5, ease: 'power3.in' }, out)
+    .to('.title .ch', { yPercent: -60, opacity: 0, filter: 'blur(8px)', duration: .4, stagger: .02, ease: 'power3.in' }, out + .05)
+    .to(['.kicker', '.meta'], { opacity: 0, y: '-1.5cqmin', duration: .35, ease: 'power2.in' }, out)
+    .to(['.scrim', '.bg'], { opacity: 0, duration: .4, ease: 'power2.in' }, out + .25);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines['film'] = tl;
+
+  // preview mode (storyboard): loop it
+  if (window.__omPreview) {
+    const go = () => { const t0 = performance.now(); const dur = tl.duration() + .6;
+      const tick = () => { tl.seek(((performance.now() - t0) / 1000) % dur); requestAnimationFrame(tick); }; tick(); };
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(go);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>People — Bahlman Media</title>
+<meta name="description" content="Everyone who appears in the Bahlman footage archive, found by face recognition on this Mac. Name someone once and every clip they're in becomes searchable.">
+<link rel="icon" type="image/png" href="../Sean (DON'T TOUCH)/site/assets/img/favicon.png">
+<link rel="stylesheet" href="../Ideate/app.css?v=4">
+<link rel="stylesheet" href="app.css?v=4">
+</head>
+<body>
+<div class="bgfx" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="strip">Now booking 2026 events <i></i> <a href="../Sean (DON'T TOUCH)/site/index.html#contact">Free consultation</a></div>
+  <div class="bar"><div class="wrap">
+    <nav class="side l">
+      <a class="ni" href="../Sean (DON'T TOUCH)/index.html" aria-label="Content Library"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></svg><span>Content Library</span></a>
+      <a class="ni on" href="#" aria-label="People"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .6 3.3 2.2 3.5 5.5"/></svg><span>People</span></a>
+      <a class="ni" href="../Ideate/index.html" aria-label="Ideate"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.7.6 1 1.2 1 2.1h5c0-.9.3-1.5 1-2.1A6 6 0 0 0 12 3z"/></svg><span>Ideate</span></a>
+      <a class="ni" href="../Pipeline/index.html" aria-label="Pipeline"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="9.5" y="4" width="5" height="11" rx="1.5"/><rect x="16" y="4" width="5" height="7" rx="1.5"/></svg><span>Pipeline</span></a>
+      <a class="ni" href="../Review/index.html" aria-label="Review"><svg viewBox="0 0 24 24"><path d="M4 6h16v10H9l-4 4z"/><path d="m8.5 11 2 2 4-4"/></svg><span>Review</span></a>
+    </nav>
+    <a class="logo" href="../Sean (DON'T TOUCH)/site/index.html" aria-label="Bahlman Media"><img src="../Sean (DON'T TOUCH)/site/assets/img/wordmark-gold.png" alt="Bahlman Media"></a>
+    <div class="side r">
+      <a class="ni" href="../Sean (DON'T TOUCH)/site/index.html#contact" aria-label="Contact"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg><span>Contact</span></a>
+    </div>
+  </div></div>
+</header>
+
+<main class="page" id="page">
+  <div class="wrap">
+    <div class="crumbs"><span>Media Hub</span><i>✦</i><b>Sean</b><i>✦</i><span>People</span></div>
+    <section class="pp-hero">
+      <div>
+        <div class="eyebrow"><b></b>Face recognition · on this Mac</div>
+        <h1>Who's in <em>the footage.</em></h1>
+        <p>Every face in the archive, grouped by person. Name someone once and every clip they're in becomes searchable — in Ideate, by name.</p>
+      </div>
+      <div class="pp-stats" id="stats"></div>
+    </section>
+    <section id="body"></section>
+  </div>
+</main>
+
+<div class="modal pp-modal" id="modal"></div>
+<div class="pp-pop" id="pop"></div>
+<div class="toast" id="toast"></div>
+<div class="loading" id="loading"><div class="rec"><b></b>LOADING PEOPLE</div><div class="bar"><i id="lbar" style="width:40%"></i></div><div class="lnum" id="lnum">reading the archive…</div></div>
+
+<script src="people.js" onerror="window.BM_PEOPLE=null"></script>
+<script src="edits.js" onerror="window.BM_PEOPLE_EDITS=[]"></script>
+<script src="people-lib.js?v=4"></script>
+<script src="app.js?v=6"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en" data-om-signature="off">
+<head>
+<meta charset="utf-8">
+<title>Style sampler · Bahlman Style Atlas</title>
+<!-- A 4-second preview of one atlas style, built from its palette, type, texture and the kind of motion its category
+     uses. entry.js sets window.ENTRY = {name, about, palette[], display, body, preset}. Auto-made previews, not designs. -->
+<script src="entry.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/om.js"></script>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+  #film { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--bg); color: var(--fg); font-family: var(--fb), sans-serif; }
+  .layer { position: absolute; inset: 0; }
+  .title { position: absolute; left: 8%; right: 8%; top: 50%; transform: translateY(-50%); font-family: var(--fd), serif; font-size: 92px; line-height: 1.02; letter-spacing: .01em; }
+  .title .w { display: inline-block; white-space: nowrap; } .title .c { display: inline-block; }
+  .kick { position: absolute; left: 8%; top: 22%; font-size: 20px; letter-spacing: .38em; text-transform: uppercase; color: var(--ac); }
+  .line { position: absolute; left: 8%; top: 72%; height: 6px; width: 30%; background: var(--ac); transform-origin: 0 50%; }
+  .grain { position: absolute; inset: -20%; opacity: .16; mix-blend-mode: overlay; pointer-events: none; }
+  .scan { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 2px, transparent 2px 4px); pointer-events: none; }
+  .vign { position: absolute; inset: 0; background: radial-gradient(75% 70% at 50% 50%, transparent 55%, rgba(0,0,0,.55)); pointer-events: none; }
+  .tag { position: absolute; right: 22px; bottom: 16px; font: 600 12px Inter, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--fg); opacity: .55; }
+</style>
+</head>
+<body>
+<div id="film" data-composition-id="film" data-width="1280" data-height="720" data-duration="4">
+  <div class="layer" id="scene"></div>
+  <div class="kick" id="kick"></div>
+  <div class="title" id="title"></div>
+  <div class="line" id="line"></div>
+  <svg class="grain" id="grain" viewBox="0 0 200 200" preserveAspectRatio="none"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+  <div class="tag">Auto preview</div>
+</div>
+<script>
+const E = window.ENTRY || { name: 'Style', palette: ['#111', '#d79f46', '#fff', '#333'], display: 'Inter', body: 'Inter', preset: 'explainer' };
+const P = (E.palette && E.palette.length ? E.palette : ['#101014', '#d79f46', '#f5f4f1', '#2a2a30']).slice();
+const lum = h => { const n = parseInt(String(h).replace('#', '').padEnd(6, '0').slice(0, 6), 16); return (n >> 16) * .299 + ((n >> 8) & 255) * .587 + (n & 255) * .114 };
+const byL = [...P].sort((a, b) => lum(a) - lum(b));
+const light = /^(paper|hand|illus|print|movement|data|paint)$/.test(E.preset) && lum(byL[byL.length - 1]) > 200;
+const BG = light ? byL[byL.length - 1] : byL[0], FG = light ? byL[0] : byL[byL.length - 1];
+const others = P.filter(c => c !== BG && c !== FG); const AC = others[0] || P[1], AC2 = others[1] || AC;
+const root = document.getElementById('film');
+root.style.setProperty('--bg', BG); root.style.setProperty('--fg', FG); root.style.setProperty('--ac', AC);
+root.style.setProperty('--fd', `"${E.display || 'Inter'}"`); root.style.setProperty('--fb', `"${E.body || 'Inter'}"`);
+const $ = s => document.querySelector(s), scene = $('#scene'), title = $('#title');
+const name = E.name || 'Style';
+title.innerHTML = name.split(' ').map(w => `<span class="w">${[...w].map(c => `<span class="c">${c}</span>`).join('')}</span>`).join(' ');
+if (name.length > 18) title.style.fontSize = '72px'; if (name.length > 26) title.style.fontSize = '58px';
+$('#kick').textContent = E.category || '';
+const rnd = OM.random(String(name).length * 7 + 3);
+const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+const el = (tag, css, html) => { const d = document.createElement(tag); Object.assign(d.style, css); if (html) d.innerHTML = html; scene.appendChild(d); return d };
+const svg = (inner, css) => { const d = el('div', Object.assign({ position: 'absolute', inset: '0' }, css || {})); d.innerHTML = `<svg width="1280" height="720" viewBox="0 0 1280 720" style="position:absolute;inset:0">${inner}</svg>`; return d.querySelector('svg') };
+const chars = '#title .c', grain = $('#grain');
+grain.style.opacity = { paint: .3, print: .26, paper: .22, hand: .14, illus: .2, light: .12 }[E.preset] ?? .1;
+
+const PRESETS = {
+  hand() { // strokes draw on, the title is "written" left to right
+    const s = svg(`<path id="u" d="M110 520 C 360 500, 620 540, 860 512" stroke="${AC}" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <path id="a" d="M980 210 C 1080 260, 1110 360, 1060 450 M1060 450 l-38 -6 M1060 450 l6 -38" stroke="${AC2}" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <ellipse id="o" cx="1060" cy="560" rx="120" ry="58" stroke="${FG}" stroke-width="5" fill="none" transform="rotate(-6 1060 560)"/>`);
+    s.querySelectorAll('path,ellipse').forEach((p, i) => { const L = p.getTotalLength ? p.getTotalLength() : 900; p.style.strokeDasharray = L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: .9, ease: 'power2.inOut' }, 1.1 + i * .35) });
+    tl.fromTo('#title', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.3, ease: 'power1.inOut' }, .2);
+  },
+  paint() { // pigment blooms spread, the title emerges from blur
+    P.forEach((c, i) => { const b = el('div', { position: 'absolute', left: (10 + rnd() * 70) + '%', top: (10 + rnd() * 60) + '%', width: '420px', height: '420px', borderRadius: '50%', background: c, filter: 'blur(60px)', opacity: .0, mixBlendMode: light ? 'multiply' : 'screen' });
+      if (c === BG) return;
+      tl.fromTo(b, { scale: .2, opacity: 0 }, { scale: 1.1 + rnd() * .6, opacity: .42, duration: 2.6, ease: 'power2.out' }, i * .25) });
+    tl.fromTo(chars, { opacity: 0, filter: 'blur(18px)' }, { opacity: 1, filter: 'blur(0px)', duration: 1.4, stagger: .03, ease: 'power2.out' }, .6);
+  },
+  print() { // halftone field, the title stamps down with an off-register second ink
+    el('div', { position: 'absolute', inset: 0, backgroundImage: `radial-gradient(${AC} 32%, transparent 34%)`, backgroundSize: '18px 18px', opacity: .35 });
+    const ghost = title.cloneNode(true); ghost.id = 'ghost'; ghost.style.color = AC; ghost.style.mixBlendMode = light ? 'multiply' : 'screen'; root.insertBefore(ghost, title);
+    tl.fromTo(['#title', '#ghost'], { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: 'power4.in', stagger: .12 }, .3)
+      .fromTo('#ghost', { x: 0, y: 0 }, { x: 7, y: -5, duration: .2 }, .8)
+      .fromTo('#film', { x: 0 }, { x: 4, duration: .05, yoyo: true, repeat: 3, ease: 'none' }, .65);
+  },
+  paper() { // layered paper shapes slide in with depth and real shadows
+    for (let i = 0; i < 4; i++) { const d = el('div', { position: 'absolute', left: (-10 + i * 6) + '%', right: (-10 + i * 4) + '%', bottom: (-30 + i * 11) + '%', height: '60%', background: P[i % P.length], borderRadius: '48% 52% 0 0 / 30% 34% 0 0', boxShadow: '0 -14px 30px rgba(0,0,0,.28)' });
+      tl.fromTo(d, { yPercent: 70 }, { yPercent: 0, duration: 1.1, ease: 'back.out(1.4)' }, .1 + i * .18) }
+    tl.fromTo(chars, { y: -40, opacity: 0, rotation: () => rnd() * 16 - 8 }, { y: 0, opacity: 1, rotation: 0, duration: .7, stagger: .03, ease: 'back.out(2)' }, .9);
+  },
+  illus() { // an ornamental frame draws, the title fades in letter by letter
+    const s = svg(`<rect x="40" y="40" width="1200" height="640" stroke="${AC}" stroke-width="4" fill="none"/><rect x="58" y="58" width="1164" height="604" stroke="${AC}" stroke-width="1.5" fill="none"/>
+      ${[[40, 40], [1240, 40], [40, 680], [1240, 680]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="18" fill="${AC2}" stroke="${AC}" stroke-width="3"/>`).join('')}`);
+    s.querySelectorAll('rect').forEach((r, i) => { r.style.strokeDasharray = 3800; tl.fromTo(r, { strokeDashoffset: 3800 }, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' }, i * .2) });
+    tl.fromTo(s.querySelectorAll('circle'), { scale: 0, transformOrigin: '50% 50%' }, { scale: 1, duration: .5, stagger: .1, ease: 'back.out(3)' }, 1.2)
+      .fromTo(chars, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .8, stagger: .04 }, .7);
+  },
+  movement() { // bold geometry assembles on a grid
+    const sh = [['50%', AC], ['0', AC2], ['tri', FG]];
+    sh.forEach(([r, c], i) => { const d = el('div', { position: 'absolute', width: '300px', height: '300px', right: (6 + i * 15) + '%', top: (12 + i * 18) + '%', background: c, borderRadius: r === 'tri' ? '0' : r, clipPath: r === 'tri' ? 'polygon(50% 0,100% 100%,0 100%)' : 'none', opacity: .9 });
+      tl.fromTo(d, { x: 600, rotation: 90 * (i + 1) }, { x: 0, rotation: 0, duration: 1, ease: 'power4.out' }, .1 + i * .2) });
+    tl.fromTo(chars, { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .6, stagger: .03, ease: 'power4.out' }, .7);
+  },
+  retro() { // pixel grid, the title types out with a block cursor, stepped motion
+    root.style.setProperty('--fd', '"Press Start 2P"'); title.style.fontSize = name.length > 16 ? '40px' : '54px'; title.style.lineHeight = '1.4';
+    el('div', { position: 'absolute', inset: 0, backgroundImage: `linear-gradient(${AC}22 1px, transparent 1px), linear-gradient(90deg, ${AC}22 1px, transparent 1px)`, backgroundSize: '32px 32px' });
+    root.appendChild(Object.assign(document.createElement('div'), { className: 'scan' }));
+    const cur = document.createElement('span'); cur.textContent = '█'; cur.style.color = AC; title.appendChild(cur);
+    tl.set(chars, { opacity: 0 }, 0); document.querySelectorAll(chars).forEach((c, i) => tl.set(c, { opacity: 1 }, .3 + i * .07));
+    for (let k = 0; k < 8; k++) tl.set(cur, { opacity: k % 2 ? 1 : 0 }, 2.2 + k * .22);
+  },
+  retroui() { // neon glow flickers on, a perspective grid scrolls
+    const g = el('div', { position: 'absolute', left: '-50%', right: '-50%', bottom: '-10%', height: '55%', backgroundImage: `linear-gradient(${AC} 2px, transparent 2px), linear-gradient(90deg, ${AC} 2px, transparent 2px)`, backgroundSize: '80px 80px', transform: 'perspective(500px) rotateX(62deg)', opacity: .55 });
+    tl.fromTo(g, { backgroundPositionY: '0px' }, { backgroundPositionY: '320px', duration: 4, ease: 'none' }, 0);
+    title.style.textShadow = `0 0 12px ${AC}, 0 0 34px ${AC}, 0 0 70px ${AC2}`;
+    [[.3, 0], [.38, 1], [.45, .2], [.55, 1], [.62, .4], [.7, 1]].forEach(([t, o]) => tl.set('#title', { opacity: o }, t));
+  },
+  dim() { // cards in 3D space turn into place
+    root.style.perspective = '1200px';
+    for (let i = 0; i < 3; i++) { const d = el('div', { position: 'absolute', width: '360px', height: '220px', right: (5 + i * 9) + '%', top: (18 + i * 14) + '%', background: `linear-gradient(135deg, ${P[i % P.length]}, ${P[(i + 1) % P.length]})`, borderRadius: '22px', boxShadow: '0 30px 60px rgba(0,0,0,.35)', border: '1px solid rgba(255,255,255,.25)' });
+      tl.fromTo(d, { rotationY: -70, rotationX: 25, z: -500, opacity: 0 }, { rotationY: -18, rotationX: 8, z: 0, opacity: 1, duration: 1.4 }, .1 + i * .15).to(d, { rotationY: -8, duration: 2, ease: 'none' }, 1.6) }
+    tl.fromTo('#title', { rotationX: -80, opacity: 0, transformOrigin: '50% 100%' }, { rotationX: 0, opacity: 1, duration: 1 }, .6);
+  },
+  light() { // darkness, a sweep of light, bloom
+    root.appendChild(Object.assign(document.createElement('div'), { className: 'vign' }));
+    const sw = el('div', { position: 'absolute', top: '-20%', bottom: '-20%', width: '22%', background: `linear-gradient(90deg, transparent, ${AC}88, ${FG}cc, ${AC}88, transparent)`, filter: 'blur(30px)', mixBlendMode: 'screen' });
+    tl.fromTo(sw, { left: '-30%' }, { left: '110%', duration: 2.2, ease: 'power2.inOut' }, .2);
+    title.style.textShadow = `0 0 30px ${AC}`;
+    tl.fromTo(chars, { opacity: 0 }, { opacity: 1, duration: .15, stagger: { each: .04, from: 'start' }, ease: 'none' }, .5);
+    for (let i = 0; i < 40; i++) { const p = el('div', { position: 'absolute', left: rnd() * 100 + '%', top: rnd() * 100 + '%', width: '4px', height: '4px', borderRadius: '50%', background: AC2, boxShadow: `0 0 10px ${AC2}` }); tl.fromTo(p, { opacity: 0, y: 0 }, { opacity: rnd(), y: -40 - rnd() * 60, duration: 3, ease: 'none' }, rnd()) }
+  },
+  data() { // axes, bars grow, a line draws, a number counts
+    title.style.top = '24%'; title.style.fontSize = '58px'; $('#kick').style.top = '9%'; $('#line').style.display = 'none';
+    const s = svg(`<line x1="100" y1="640" x2="1180" y2="640" stroke="${FG}" stroke-width="2" opacity=".5"/>` +
+      Array.from({ length: 8 }, (_, i) => `<rect class="bar" x="${140 + i * 130}" y="0" width="70" height="0" fill="${i === 5 ? AC : AC2}" opacity="${i === 5 ? 1 : .55}"/>`).join('') +
+      `<path id="ln" d="M140 560 ${Array.from({ length: 8 }, (_, i) => `L${175 + i * 130} ${600 - (60 + i * 30 + (i % 3) * 25)}`).join(' ')}" stroke="${FG}" stroke-width="4" fill="none"/>`);
+    s.querySelectorAll('.bar').forEach((b, i) => { const h = 80 + i * 30 + (i % 3) * 25; tl.fromTo(b, { attr: { y: 640, height: 0 } }, { attr: { y: 640 - h, height: h }, duration: .9 }, .4 + i * .08) });
+    const ln = s.querySelector('#ln'); const L = ln.getTotalLength(); ln.style.strokeDasharray = L; tl.fromTo(ln, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut' }, 1.2);
+    tl.fromTo(chars, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .6, stagger: .02 }, .1);
+  },
+  gen() { // a tile field rotates in a wave, the title slams
+    const n = 16, m = 9; const g = el('div', { position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: `repeat(${n},1fr)`, opacity: .45 });
+    const tiles = []; for (let i = 0; i < n * m; i++) { const t = document.createElement('div'); t.style.cssText = `border-radius:0 0 0 100%;border:4px solid ${i % 3 ? AC : AC2};border-right:0;border-top:0;transform:rotate(${(rnd() * 4 | 0) * 90}deg)`; g.appendChild(t); tiles.push(t) }
+    tl.to(tiles, { rotation: '+=90', duration: .6, stagger: { each: .012, grid: [m, n], from: 'center' }, ease: 'power2.inOut' }, .2);
+    tl.fromTo(chars, { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: .45, stagger: .025, ease: 'expo.out' }, .9);
+  },
+  cosmic() { // stars, rotating rings, glowing title
+    for (let i = 0; i < 120; i++) { const p = el('div', { position: 'absolute', left: rnd() * 100 + '%', top: rnd() * 100 + '%', width: (1 + rnd() * 2.5) + 'px', height: '3px', borderRadius: '50%', background: FG, opacity: rnd() }); tl.to(p, { opacity: rnd(), duration: 1 + rnd() * 2, ease: 'sine.inOut' }, rnd() * 2) }
+    [460, 600].forEach((r, i) => { const d = el('div', { position: 'absolute', left: '50%', top: '50%', width: r + 'px', height: r + 'px', margin: `-${r / 2}px 0 0 -${r / 2}px`, border: `2px dashed ${i ? AC2 : AC}`, borderRadius: '50%', opacity: .6 }); tl.fromTo(d, { rotation: 0, scale: .6 }, { rotation: i ? -60 : 80, scale: 1, duration: 4, ease: 'none' }, 0) });
+    title.style.textAlign = 'center'; title.style.textShadow = `0 0 26px ${AC}`;
+    tl.fromTo('#title', { opacity: 0, scale: .9 }, { opacity: 1, scale: 1, duration: 1.6, ease: 'power2.out' }, .4);
+  },
+  explainer() { // flat shapes pop with overshoot around the title
+    [['circle', AC, 200, 72, 18], ['square', AC2, 160, 82, 62], ['circle', FG, 90, 66, 70], ['square', P[1], 120, 12, 70]].forEach(([k, c, s, x, y], i) => { const d = el('div', { position: 'absolute', width: s + 'px', height: s + 'px', left: x + '%', top: y + '%', background: c, borderRadius: k === 'circle' ? '50%' : '22px', opacity: .9 });
+      tl.fromTo(d, { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: .8, ease: 'back.out(2.2)' }, .3 + i * .15).to(d, { y: -14, duration: 1.2, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 1.4) });
+    tl.fromTo(chars, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .6, stagger: .025, ease: 'back.out(2)' }, .5);
+  },
+  photo() { // a real event photo opens through an iris, the title lands on it
+    const im = el('img', { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(.65)' }); im.src = 'assets/photo.jpg';
+    tl.fromTo(im, { clipPath: 'circle(0% at 50% 50%)', scale: 1.2 }, { clipPath: 'circle(75% at 50% 50%)', scale: 1, duration: 1.6, ease: 'power3.inOut' }, 0);
+    tl.fromTo(chars, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .7, stagger: .03 }, 1.0);
+  },
+};
+(PRESETS[E.preset] || PRESETS.explainer)();
+tl.fromTo('#kick', { opacity: 0, letterSpacing: '.9em' }, { opacity: 1, letterSpacing: '.38em', duration: 1.2 }, .1)
+  .fromTo('#line', { scaleX: 0 }, { scaleX: 1, duration: 1, ease: 'expo.inOut' }, 1.4)
+  .to({}, { duration: Math.max(0, 4 - tl.duration()) });
+tl.addLabel('scene:sample', 0);
+window.__timelines = window.__timelines || {}; window.__timelines['film'] = tl;
+</script>
+</body>
+</html>

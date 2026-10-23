@@ -1,0 +1,659 @@
+{
+ "built": "2026-10-22T15:36:27",
+ "personality": [
+  {
+   "id": "precise_playful",
+   "left": "precise",
+   "right": "playful",
+   "moves": "easing (hard ease-out → springs with overshoot), shape language (grids → blobs)"
+  },
+  {
+   "id": "calm_energetic",
+   "left": "calm",
+   "right": "energetic",
+   "moves": "tempo (80–100 → 125–150 BPM), shot length, cut density"
+  },
+  {
+   "id": "premium_accessible",
+   "left": "premium",
+   "right": "accessible",
+   "moves": "negative space, type scale contrast, colour count, how much is on screen"
+  },
+  {
+   "id": "technical_human",
+   "left": "technical",
+   "right": "human",
+   "moves": "monospace / code / diagrams vs photos, faces, hand-drawn"
+  },
+  {
+   "id": "established_new",
+   "left": "established",
+   "right": "new",
+   "moves": "restraint and continuity vs bold, surprising"
+  }
+ ],
+ "graphics": [
+  {
+   "id": "opener",
+   "name": "Opener / title sequence",
+   "engine": "huashu-motion"
+  },
+  {
+   "id": "title",
+   "name": "Title / chapter card",
+   "engine": "remotion"
+  },
+  {
+   "id": "lower-third",
+   "name": "Lower third (name + role)",
+   "engine": "remotion"
+  },
+  {
+   "id": "captions",
+   "name": "Captions",
+   "engine": "remotion"
+  },
+  {
+   "id": "stat",
+   "name": "Stat / number callout",
+   "engine": "remotion"
+  },
+  {
+   "id": "quote",
+   "name": "Pull quote",
+   "engine": "remotion"
+  },
+  {
+   "id": "transition",
+   "name": "Transition / sting",
+   "engine": "huashu-motion"
+  },
+  {
+   "id": "end-card",
+   "name": "End card / logo",
+   "engine": "huashu-motion"
+  },
+  {
+   "id": "custom",
+   "name": "Custom (describe it)",
+   "engine": "either"
+  }
+ ],
+ "huashu": {
+  "name": "huashu-motion",
+  "role": "design",
+  "version": "0.3.1",
+  "license": "MIT (bundled GSAP keeps its own licence)",
+  "repo": "https://github.com/alchaincyf/huashu-motion",
+  "skill": "skills/huashu-motion/SKILL.md",
+  "languages": [
+   {
+    "id": "cursor-demo",
+    "says": "It works; here's how",
+    "best_for": "features, workflows, SaaS, AI apps",
+    "template": "blank` (+ product-demo-continuity)",
+    "file": "skills/huashu-motion/references/library/languages/cursor-demo.md"
+   },
+   {
+    "id": "continuous-morph",
+    "says": "One crafted system",
+    "best_for": "consumer apps, UI features, stings, loops",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/continuous-morph.md"
+   },
+   {
+    "id": "card-montage",
+    "says": "Step by step, finished and real",
+    "best_for": "small-team product promos, consumer apps",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/card-montage.md"
+   },
+   {
+    "id": "kinetic-type",
+    "says": "A claim with conviction",
+    "best_for": "slogans, lists, hooks, endings",
+    "template": "kinetic-type",
+    "file": "skills/huashu-motion/references/library/languages/kinetic-type.md"
+   },
+   {
+    "id": "modular-grid",
+    "says": "Precise, engineered",
+    "best_for": "dev tools, infra, fintech, specs",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/modular-grid.md"
+   },
+   {
+    "id": "data-story",
+    "says": "Here's the evidence",
+    "best_for": "metrics, reports, milestones",
+    "template": "finance-chart",
+    "file": "skills/huashu-motion/references/library/languages/data-story.md"
+   },
+   {
+    "id": "mechanism",
+    "says": "Why it works",
+    "best_for": "AI/ML, algorithms, science",
+    "template": "math-3b1b",
+    "file": "skills/huashu-motion/references/library/languages/mechanism.md"
+   },
+   {
+    "id": "system-diagram",
+    "says": "How parts connect",
+    "best_for": "infra, agents, pipelines",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/system-diagram.md"
+   },
+   {
+    "id": "flat-world",
+    "says": "Wonder, scale",
+    "best_for": "science, health, education",
+    "template": "kurzgesagt",
+    "file": "skills/huashu-motion/references/library/languages/flat-world.md"
+   },
+   {
+    "id": "editorial-collage",
+    "says": "It's real; look at this line",
+    "best_for": "news, commentary, case studies",
+    "template": "vox-collage",
+    "file": "skills/huashu-motion/references/library/languages/editorial-collage.md"
+   },
+   {
+    "id": "hand-drawn",
+    "says": "Human, thinking aloud",
+    "best_for": "teaching, friendly brands, annotations",
+    "template": "whiteboard",
+    "file": "skills/huashu-motion/references/library/languages/hand-drawn.md"
+   },
+   {
+    "id": "character",
+    "says": "Emotion, personality",
+    "best_for": "stories, consumer, agents as actors",
+    "template": "storytime",
+    "file": "skills/huashu-motion/references/library/languages/character.md"
+   },
+   {
+    "id": "3d-object",
+    "says": "Tangible, premium",
+    "best_for": "hardware, logos, devices, maps → cities, the interface in space",
+    "template": "object-3d` (Three.js) · `ui-space` (CSS 3D)",
+    "file": "skills/huashu-motion/references/library/languages/3d-object.md"
+   },
+   {
+    "id": "generative-field",
+    "says": "Intelligence, mood",
+    "best_for": "model launches, music, loops",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/generative-field.md"
+   },
+   {
+    "id": "liquid-glass",
+    "says": "Premium consumer",
+    "best_for": "iOS apps, photo/media",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/liquid-glass.md"
+   },
+   {
+    "id": "photo-led",
+    "says": "The real world",
+    "best_for": "travel, food, fashion, ads",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/photo-led.md"
+   },
+   {
+    "id": "showreel",
+    "says": "Range and mastery",
+    "best_for": "capability showcases, \"made with X\"",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/showreel.md"
+   },
+   {
+    "id": "retro-digital",
+    "says": "Culture, edge",
+    "best_for": "dev culture, games, CLI tools; mostly a seasoning on kinetic-type or showreel",
+    "template": "blank",
+    "file": "skills/huashu-motion/references/library/languages/retro-digital.md"
+   },
+   {
+    "id": "art-styles",
+    "says": "Culture, delight",
+    "best_for": "showcases, the unexpected direction",
+    "template": "huashu-art-motion",
+    "file": "skills/huashu-motion/references/library/languages/art-styles.md"
+   },
+   {
+    "id": "talking-head",
+    "says": "A real person behind it",
+    "best_for": "founders, creators",
+    "template": "talking-head",
+    "file": "skills/huashu-motion/references/library/languages/talking-head.md"
+   }
+  ],
+  "chart": [
+   {
+    "shape": "Claim",
+    "precise": "kinetic-type · modular-grid · system-diagram ident (wireframe → mark)",
+    "calm_premium": "3d-object · generative-field · photo-led",
+    "playful": "kinetic-type (slams) · showreel · retro-digital",
+    "human": "hand-drawn · kinetic-type · character"
+   },
+   {
+    "shape": "Workflow",
+    "precise": "cursor-demo · system-diagram · continuous-morph",
+    "calm_premium": "cursor-demo · continuous-morph · card-montage",
+    "playful": "continuous-morph · cursor-demo · card-montage",
+    "human": "cursor-demo · talking-head · hand-drawn annotations"
+   },
+   {
+    "shape": "Mechanism",
+    "precise": "mechanism · system-diagram · modular-grid",
+    "calm_premium": "mechanism · 3d-object · flat-world",
+    "playful": "flat-world · character · art-styles",
+    "human": "hand-drawn · flat-world · character"
+   },
+   {
+    "shape": "Evidence",
+    "precise": "data-story · modular-grid · kinetic-type",
+    "calm_premium": "data-story · editorial-collage · 3d-object (map → city)",
+    "playful": "data-story (bold) · kinetic-type",
+    "human": "data-story · editorial-collage · talking-head"
+   },
+   {
+    "shape": "List",
+    "precise": "modular-grid · kinetic-type · continuous-morph",
+    "calm_premium": "card-montage · continuous-morph · kinetic-type",
+    "playful": "continuous-morph · card-montage · 3d-object",
+    "human": "card-montage · hand-drawn · character"
+   },
+   {
+    "shape": "Transformation",
+    "precise": "continuous-morph · data-story",
+    "calm_premium": "continuous-morph · photo-led",
+    "playful": "continuous-morph · character",
+    "human": "photo-led · hand-drawn"
+   },
+   {
+    "shape": "Story",
+    "precise": "system-diagram (agent as packet) · talking-head · character",
+    "calm_premium": "photo-led · talking-head · flat-world",
+    "playful": "character · art-styles · photo-led",
+    "human": "talking-head · photo-led · character"
+   },
+   {
+    "shape": "Showcase",
+    "precise": "one deep artifact (mechanism / 3d-object) · showreel · generative-field",
+    "calm_premium": "one deep artifact · 3d-object · showreel (restrained)",
+    "playful": "showreel · art-styles · retro-digital",
+    "human": "art-styles · character · the product demoing itself"
+   }
+  ],
+  "formats": [
+   {
+    "name": "Launch sting",
+    "length": "6–15 s",
+    "file": "skills/huashu-motion/references/library/formats.md#launch-sting"
+   },
+   {
+    "name": "Launch film",
+    "length": "30–90 s",
+    "file": "skills/huashu-motion/references/library/formats.md#launch-film"
+   },
+   {
+    "name": "Feature demo",
+    "length": "10–45 s",
+    "file": "skills/huashu-motion/references/library/formats.md#feature-demo"
+   },
+   {
+    "name": "Explainer",
+    "length": "30–180 s",
+    "file": "skills/huashu-motion/references/library/formats.md#explainer"
+   },
+   {
+    "name": "Data story",
+    "length": "15–60 s",
+    "file": "skills/huashu-motion/references/library/formats.md#data-story"
+   },
+   {
+    "name": "Kinetic manifesto",
+    "length": "8–30 s",
+    "file": "skills/huashu-motion/references/library/formats.md#kinetic-manifesto"
+   },
+   {
+    "name": "Logo reveal / end card",
+    "length": "3–6 s",
+    "file": "skills/huashu-motion/references/library/formats.md#logo-reveal--end-card"
+   },
+   {
+    "name": "Showreel",
+    "length": "10–20 s",
+    "file": "skills/huashu-motion/references/library/formats.md#showreel"
+   },
+   {
+    "name": "Social hook / ad",
+    "length": "6–20 s, 9:16",
+    "file": "skills/huashu-motion/references/library/formats.md#social-hook--ad"
+   },
+   {
+    "name": "Resource list loop",
+    "length": "8–25 s",
+    "file": "skills/huashu-motion/references/library/formats.md#resource-list-loop"
+   },
+   {
+    "name": "Prompt reel / gallery",
+    "length": "12–35 s",
+    "file": "skills/huashu-motion/references/library/formats.md#prompt-reel--gallery"
+   },
+   {
+    "name": "Game trailer",
+    "length": "30–60 s",
+    "file": "skills/huashu-motion/references/library/formats.md#game-trailer"
+   },
+   {
+    "name": "Loop",
+    "length": "4–12 s",
+    "file": "skills/huashu-motion/references/library/formats.md#loop"
+   },
+   {
+    "name": "Talking-head package",
+    "length": "any length",
+    "file": "skills/huashu-motion/references/library/formats.md#talking-head-package"
+   },
+   {
+    "name": "Step promo",
+    "length": "15–30 s",
+    "file": "skills/huashu-motion/references/library/formats.md#step-promo"
+   },
+   {
+    "name": "Tutorial / walkthrough",
+    "length": "30 s–5 min",
+    "file": "skills/huashu-motion/references/library/formats.md#tutorial--walkthrough"
+   },
+   {
+    "name": "Recap / milestone",
+    "length": "15–45 s",
+    "file": "skills/huashu-motion/references/library/formats.md#recap--milestone"
+   },
+   {
+    "name": "Before / after",
+    "length": "6–20 s",
+    "file": "skills/huashu-motion/references/library/formats.md#before--after"
+   }
+  ],
+  "techniques": [
+   {
+    "section": "Timing and easing",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   },
+   {
+    "section": "Entrances and exits",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   },
+   {
+    "section": "Continuity devices (instead of cuts)",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   },
+   {
+    "section": "Camera",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   },
+   {
+    "section": "Typography in motion",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   },
+   {
+    "section": "Shape and material",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   },
+   {
+    "section": "Data",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   },
+   {
+    "section": "Product UI",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   },
+   {
+    "section": "Finishing",
+    "file": "skills/huashu-motion/references/library/techniques.md"
+   }
+  ],
+  "guides": [
+   {
+    "id": "colour",
+    "title": "Colour",
+    "file": "skills/huashu-motion/references/colour.md"
+   },
+   {
+    "id": "contract",
+    "title": "The huashu-motion project contract",
+    "file": "skills/huashu-motion/references/contract.md"
+   },
+   {
+    "id": "craft",
+    "title": "按条件使用经验",
+    "file": "skills/huashu-motion/references/craft.md"
+   },
+   {
+    "id": "depth",
+    "title": "Depth — the interface in space, real objects in a real space",
+    "file": "skills/huashu-motion/references/depth.md"
+   },
+   {
+    "id": "director",
+    "title": "The director",
+    "file": "skills/huashu-motion/references/director.md"
+   },
+   {
+    "id": "experience",
+    "title": "Experience",
+    "file": "skills/huashu-motion/references/experience.md"
+   },
+   {
+    "id": "grammars",
+    "title": "Grammar templates",
+    "file": "skills/huashu-motion/references/grammars.md"
+   },
+   {
+    "id": "music",
+    "title": "Music — a different world for every film",
+    "file": "skills/huashu-motion/references/music.md"
+   },
+   {
+    "id": "product-demo-continuity",
+    "title": "Best practice：用连续取景讲清产品操作",
+    "file": "skills/huashu-motion/references/product-demo-continuity.md"
+   },
+   {
+    "id": "rhythm",
+    "title": "Rhythm",
+    "file": "skills/huashu-motion/references/rhythm.md"
+   },
+   {
+    "id": "sound",
+    "title": "Sound",
+    "file": "skills/huashu-motion/references/sound.md"
+   },
+   {
+    "id": "talking-head",
+    "title": "Talking-head packaging (口播包装)",
+    "file": "skills/huashu-motion/references/talking-head.md"
+   },
+   {
+    "id": "verification",
+    "title": "验证与返工",
+    "file": "skills/huashu-motion/references/verification.md"
+   },
+   {
+    "id": "visual-direction",
+    "title": "画面工艺与镜头导演",
+    "file": "skills/huashu-motion/references/visual-direction.md"
+   }
+  ]
+ },
+ "remotion": {
+  "name": "remotion",
+  "role": "build",
+  "license": "Remotion skills (see remotion.dev — Remotion itself needs a company licence above its free tier)",
+  "repo": "https://github.com/remotion-dev/skills",
+  "skills": [
+   {
+    "id": "remotion-best-practices",
+    "about": "Router for all Remotion skills",
+    "file": "skills/remotion/remotion-best-practices/SKILL.md",
+    "topics": []
+   },
+   {
+    "id": "remotion-captions",
+    "about": "Transcribing, displaying and animating captions",
+    "file": "skills/remotion/remotion-captions/SKILL.md",
+    "topics": [
+     "display-captions",
+     "import-srt-captions",
+     "transcribe-captions"
+    ]
+   },
+   {
+    "id": "remotion-create",
+    "about": "Create a new Remotion video",
+    "file": "skills/remotion/remotion-create/SKILL.md",
+    "topics": [
+     "tailwind",
+     "video-layout"
+    ]
+   },
+   {
+    "id": "remotion-docs",
+    "about": "Search Remotion documentation",
+    "file": "skills/remotion/remotion-docs/SKILL.md",
+    "topics": []
+   },
+   {
+    "id": "remotion-interactivity",
+    "about": "Structure Remotion markup for interactivity",
+    "file": "skills/remotion/remotion-interactivity/SKILL.md",
+    "topics": [
+     "inline-effects",
+     "timeline-structure"
+    ]
+   },
+   {
+    "id": "remotion-maps",
+    "about": "Remotion Map animation knowledge",
+    "file": "skills/remotion/remotion-maps/SKILL.md",
+    "topics": []
+   },
+   {
+    "id": "remotion-markup",
+    "about": "Content, animation and effects best practices",
+    "file": "skills/remotion/remotion-markup/SKILL.md",
+    "topics": [
+     "3d",
+     "arabic-text",
+     "audio",
+     "audio-visualization",
+     "calculate-metadata",
+     "color-correction",
+     "compositions",
+     "connected-compositions",
+     "cropping",
+     "effects",
+     "embedding-videos",
+     "ffmpeg",
+     "gifs",
+     "google-fonts",
+     "html-in-canvas",
+     "images",
+     "light-leaks",
+     "local-fonts",
+     "lottie",
+     "measuring-dom-nodes",
+     "measuring-text",
+     "motion-blur",
+     "multi-scene-video",
+     "parameters",
+     "sequencing",
+     "sfx",
+     "silence-detection",
+     "text-highlights",
+     "timing",
+     "timing-props",
+     "transitions",
+     "video-editing",
+     "voiceover"
+    ]
+   },
+   {
+    "id": "remotion-multimedia",
+    "about": "Interacting with Mediabunny",
+    "file": "skills/remotion/remotion-multimedia/SKILL.md",
+    "topics": [
+     "get-audio-duration",
+     "get-video-dimensions",
+     "get-video-duration"
+    ]
+   },
+   {
+    "id": "remotion-render",
+    "about": "Export a Remotion video",
+    "file": "skills/remotion/remotion-render/SKILL.md",
+    "topics": [
+     "transparent-videos"
+    ]
+   },
+   {
+    "id": "remotion-saas",
+    "about": "Build an app with Remotion",
+    "file": "skills/remotion/remotion-saas/SKILL.md",
+    "topics": [
+     "framework",
+     "player",
+     "rendering"
+    ]
+   },
+   {
+    "id": "remotion-studio",
+    "about": "Preview a Remotion video",
+    "file": "skills/remotion/remotion-studio/SKILL.md",
+    "topics": []
+   },
+   {
+    "id": "remotion-upgrade",
+    "about": "Upgrade Remotion, and related packages",
+    "file": "skills/remotion/remotion-upgrade/SKILL.md",
+    "topics": []
+   }
+  ]
+ },
+ "skills": [
+  {
+   "id": "bahlman-motion",
+   "about": "Plan and make motion graphics for Bahlman Media reels — pick or draft a client's style from the Style Atlas, read the Pipeline storyboard, build each beat's graphic with HyperFrames/huashu-motion or Remotion, and assemble the sequence in Premiere through Cuddle. Use for \"make the graphics for <card>\", \"build <card> in Premiere\", \"draft a style guide for <client>\", or any request about a reel's look or motion graphics in the Bahlman app.",
+   "file": "skills/bahlman-motion/SKILL.md"
+  }
+ ],
+ "fonts": [
+  "Alfa Slab One",
+  "Anton",
+  "Archivo Black",
+  "Bangers",
+  "Caveat",
+  "Cinzel",
+  "Cormorant Garamond",
+  "EB Garamond",
+  "Exo 2",
+  "Gochi Hand",
+  "IM Fell English",
+  "Inter",
+  "Josefin Sans",
+  "Kalam",
+  "Libre Baskerville",
+  "Lilita One",
+  "Marcellus",
+  "Playfair Display",
+  "Poppins",
+  "Press Start 2P",
+  "Righteous",
+  "Roboto Condensed",
+  "Rye",
+  "Unifraktur Maguntia"
+ ]
+}

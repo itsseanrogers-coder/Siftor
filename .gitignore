@@ -1,0 +1,35 @@
+# Code only. Footage, customer data and generated files never go in this repo.
+.DS_Store
+__pycache__/
+*.pyc
+venv/
+*.db
+*.jsonl
+*.csv
+*.tgz
+*.zip
+*.tar
+Contact Sheets/
+Transcripts/
+People/_faces/
+People/people.js
+People/edits.json
+Ideate/photos.js
+Ideate/spoken.js
+Pipeline/data.js
+Pipeline/_backup/
+Motion/_dev/
+Motion/renders/
+Motion/storyboards/
+Motion/styles/
+Sean (DON'T TOUCH)/*
+!Sean (DON'T TOUCH)/_work/
+Sean (DON'T TOUCH)/_work/*
+!Sean (DON'T TOUCH)/_work/tools/
+Sean (DON'T TOUCH)/_work/tools/*
+!Sean (DON'T TOUCH)/_work/tools/*.py
+!Sean (DON'T TOUCH)/_work/tools/*.sh
+!Sean (DON'T TOUCH)/_work/tools/*.command
+!Sean (DON'T TOUCH)/_work/tools/index_template.html
+!Sean (DON'T TOUCH)/_work/tools/photos/
+*_before_*

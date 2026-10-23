@@ -1,0 +1,1 @@
+window.ENTRY={"name": "Talking Head", "category": "huashu-motion languages", "palette": ["#0b0b0d", "#d79f46", "#f5f4f1", "#2f6f8f"], "display": "Inter", "body": "Inter", "preset": "photo"};
