@@ -124,7 +124,7 @@ def _local(cfg):
                 "messages": [{"role": "user", "content": PROMPT.format(rel=rel, folder=folder),
                               "images": [base64.b64encode(open(sheet, "rb").read()).decode()]}]}
         req = urllib.request.Request(OLLAMA + "/api/chat", json.dumps(body).encode(), {"Content-Type": "application/json"})
-        out = json.load(urllib.request.urlopen(req, timeout=600))
+        out = json.load(urllib.request.urlopen(req, timeout=1800))   # a 7B vision model can take minutes per sheet on a laptop
         d = _clean(json.loads(out["message"]["content"]))
         for k, allowed in (("content", CONTENT), ("shot", SHOT), ("setting", SETTING), ("people", PEOPLE)):
             if d.get(k) not in allowed:
