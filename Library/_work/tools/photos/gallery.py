@@ -5,7 +5,7 @@ import json, os, re, sys
 from concurrent.futures import ProcessPoolExecutor
 from PIL import Image, ImageOps
 ROOT = "/Volumes/Expansion"
-OUT = os.path.join(ROOT, "_Contact Sheets", "Sean (DON'T TOUCH)", "_photos")
+OUT = os.path.join(ROOT, "_Contact Sheets", "Library", "_photos")
 HERE = os.path.dirname(os.path.abspath(__file__))
 SP = os.path.dirname(HERE)
 CLIENTS = json.load(open(os.path.join(SP, "clients.json")))

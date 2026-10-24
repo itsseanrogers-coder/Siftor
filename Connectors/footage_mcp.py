@@ -10,7 +10,7 @@ Standard library only, so the Mac's built-in python3 runs it.  Set up by "Connec
 import sys, os, json, re, glob, math, collections, time
 
 APP = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-LIB = os.path.join(APP, "Sean (DON'T TOUCH)")
+LIB = os.path.join(APP, "Library")
 PEOPLE = os.path.join(APP, "People")
 TX = os.path.join(LIB, "_work", "transcripts")
 STOP = set("a an the and or of to in on at for with from by as is are be been it its this that these those i we you they he she them our your my me us about into over under up down out very really just like want need make making made video videos clip clips footage shot shots scene scenes show showing get some any few lot lots find me please".split())

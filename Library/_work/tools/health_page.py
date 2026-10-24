@@ -3,7 +3,7 @@
 import json, os, re
 from collections import defaultdict
 
-LIB = os.path.expanduser("~/Desktop/Bahlman Media App/Sean (DON'T TOUCH)")
+LIB = os.path.expanduser("~/Desktop/Bahlman Media App/Library")
 SRC = os.path.join(LIB, "_work", "health.jsonl")
 DRIVE = "/Volumes/My Book/31892AZ/"
 

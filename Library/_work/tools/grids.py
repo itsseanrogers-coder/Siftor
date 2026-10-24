@@ -10,7 +10,7 @@ import glob, json, os, sys
 from PIL import Image, ImageDraw, ImageFont
 
 SP = os.path.dirname(os.path.abspath(__file__))
-G = "/Volumes/Expansion/_Contact Sheets/Sean (DON'T TOUCH)/_work/grids"; os.makedirs(G, exist_ok=True)
+G = "/Volumes/Expansion/_Contact Sheets/Library/_work/grids"; os.makedirs(G, exist_ok=True)
 F = "/System/Library/Fonts/Supplemental/"
 FL = ImageFont.truetype(F + "Arial Bold.ttf", 18)
 SW, SH, LAB, N = 960, 180, 26, 16

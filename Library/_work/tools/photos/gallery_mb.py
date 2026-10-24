@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Web-size + thumbnail copies of every EDITED photo on the Pace 2 drive (same format as gallery.py).
-Originals are only read. Output: <library>/_photos/{web,thumb}/S#####.jpg + ../pace2_photos.json"""
+"""Web-size + thumbnail copies of every EDITED photo on the My Book drive (same format as gallery.py).
+Originals are only read. Output: <library>/_photos/{web,thumb}/Q#####.jpg + ../mybook_photos.json"""
 import json, os, re
 from concurrent.futures import ProcessPoolExecutor
 from PIL import Image, ImageOps
-ROOT = "/Volumes/Pace 2/Pace Morby Media/2024"
-OUT = os.path.expanduser("~/Desktop/Bahlman Media App/Sean (DON'T TOUCH)/_photos")
+ROOT = "/Volumes/My Book/31892AZ/Bahlman Media"
+OUT = os.path.expanduser("~/Desktop/Bahlman Media App/Library/_photos")
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 def shoot_of(p):
@@ -33,13 +33,13 @@ def work(a):
 if __name__ == "__main__":
     for d in ("web", "thumb"):
         os.makedirs(os.path.join(OUT, d), exist_ok=True)
-    paths = [l.strip() for l in open(os.path.join(HERE, "pace2_edited.txt")) if l.strip()]
+    paths = [l.strip() for l in open(os.path.join(HERE, "mybook_edited.txt")) if l.strip()]
     # same photo exported twice into one shoot (e.g. Edited + Export) -> keep the first
     seen, items = set(), []
     for p in paths:
         k = (shoot_of(p), os.path.basename(p).lower())
         if k in seen: continue
-        seen.add(k); items.append((f"S{len(items) + 1:05d}", p))
+        seen.add(k); items.append((f"Q{len(items) + 1:05d}", p))
     print(len(items), "unique edited photos", flush=True)
     res = {}
     with ProcessPoolExecutor(6) as ex:
@@ -51,6 +51,6 @@ if __name__ == "__main__":
         r = res.get(pid, {})
         if not r or "err" in r: continue
         rows.append(dict(id=pid, path=rel, file=os.path.basename(rel), shoot=shoot_of(rel), folder=os.path.basename(os.path.dirname(rel)),
-                         w=r["w"], h=r["h"], taken=r["taken"], drive="Pace 2", root=ROOT + "/"))
-    json.dump(rows, open(os.path.join(os.path.dirname(HERE), "pace2_photos.json"), "w"))
+                         w=r["w"], h=r["h"], taken=r["taken"], drive="My Book", root=ROOT + "/"))
+    json.dump(rows, open(os.path.join(os.path.dirname(HERE), "mybook_photos.json"), "w"))
     print("done", len(rows), "ok,", sum(1 for r in res.values() if "err" in r), "failed")

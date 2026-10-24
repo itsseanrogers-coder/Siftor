@@ -1,9 +1,9 @@
 """Builds Ideate/spoken.js — every transcribed line in the library, for Ideate's "Spoken" search.
-Reads the Whisper transcripts in  Sean (DON'T TOUCH)/_work/transcripts/<clip id>.json  (written by Run Transcripts.command).
+Reads the Whisper transcripts in  Library/_work/transcripts/<clip id>.json  (written by Run Transcripts.command).
 Run any time more transcripts are done:  python3 build_spoken.py   (Run Transcripts.command also runs it at the end)."""
 import os, json, glob, re
 HERE = os.path.dirname(os.path.abspath(__file__))
-TX = os.path.join(HERE, "..", "Sean (DON'T TOUCH)", "_work", "transcripts")
+TX = os.path.join(HERE, "..", "Library", "_work", "transcripts")
 out = {}
 for p in sorted(glob.glob(os.path.join(TX, "*.json"))):
     cid = os.path.basename(p)[:-5]

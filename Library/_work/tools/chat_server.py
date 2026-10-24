@@ -105,15 +105,21 @@ def context(question, history, page_client):
 # /clip/<id>          the original file, streamed with byte ranges (for codecs the browser can play natively)
 # /play/<id>?t=sec    live H.264 1080p transcode from second t (for 10-bit 4:2:2, ProRes, etc.), fragmented MP4
 # /probe/<id>         {"direct": true|false, "duration": s}
-# Only files that are clips in footage.db and live under /Volumes are ever served. Footage is only read.
+# Only files that are clips in footage.db and live under /Volumes or a footage folder in siftor.json are ever served.
+# Footage is only read.
 FF = shutil.which("ffmpeg") or "/opt/homebrew/bin/ffmpeg"; FP = shutil.which("ffprobe") or "/opt/homebrew/bin/ffprobe"
 _probe = {}
 try: _enc = subprocess.run([FF, "-hide_banner", "-encoders"], capture_output=True, text=True, timeout=10).stdout
 except Exception: _enc = ""
 VENC = ["-c:v", "h264_videotoolbox", "-b:v", "10M", "-realtime", "1"] if "h264_videotoolbox" in _enc else ["-c:v", "libx264", "-preset", "veryfast", "-crf", "21"]
+def _footage_roots():
+    try: fs = json.load(open(os.path.join(OUT, "..", "siftor.json"))).get("footage_folders", [])
+    except Exception: fs = []
+    return tuple(["/Volumes/"] + [os.path.expanduser(f["path"]).rstrip("/") + "/" for f in fs if f.get("path")])
+ROOTS = _footage_roots()
 def clip_path(cid):
     r = CL.execute("select abs_path, duration from clips where id=?", (cid,)).fetchone()
-    if not r or not r[0] or not r[0].startswith("/Volumes/") or "/../" in r[0]: return None, 0
+    if not r or not r[0] or not r[0].startswith(ROOTS) or "/../" in r[0]: return None, 0
     return r[0], r[1] or 0
 def probe(cid):
     if cid in _probe: return _probe[cid]

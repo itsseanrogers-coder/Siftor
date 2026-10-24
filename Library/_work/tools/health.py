@@ -11,7 +11,7 @@ from concurrent.futures import ProcessPoolExecutor
 DRIVE = "/Volumes/My Book/31892AZ"
 ROOTS = [os.path.join(DRIVE, "Bahlman Media"), os.path.join(DRIVE, "(~Damaged~)")]
 SKIP_DIRS = {"_Contact Sheets"}
-LIB = os.path.expanduser("~/Desktop/Bahlman Media App/Sean (DON'T TOUCH)")
+LIB = os.path.expanduser("~/Desktop/Bahlman Media App/Library")
 OUT = os.path.join(LIB, "_work", "health.jsonl")
 VIDEO = {".mp4", ".mov", ".mxf", ".m4v", ".mts", ".avi"}
 PHOTO = {".jpg", ".jpeg", ".png", ".heic", ".tif", ".tiff", ".webp"}

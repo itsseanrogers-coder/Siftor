@@ -3,7 +3,7 @@
 # Double-click to start. Safe to stop (close the window) and double-click again: it picks up where it left off.
 # Footage on the drive is only read, never changed.
 APP="$HOME/Desktop/Bahlman Media App"
-T="$APP/Sean (DON'T TOUCH)/_work/tools"
+T="$APP/Library/_work/tools"
 PY="$APP/venv/bin/python"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 cd "$T" || exit 1

@@ -1,0 +1,21 @@
+{
+  "footage_folders": [
+    {"name": "Footage", "path": "/Volumes/Footage"}
+  ],
+  "describe": {
+    "engine": "local",
+    "local_model": "qwen2.5vl:7b",
+    "model": "claude-opus-5-5",
+    "consent_send_stills": false
+  },
+  "transcribe": {
+    "enabled": true,
+    "language": "auto",
+    "content": ["podcast", "interview", "talking-head", "testimonial"]
+  },
+  "faces": {
+    "enabled": true
+  },
+  "clients": [],
+  "workers": 0
+}
