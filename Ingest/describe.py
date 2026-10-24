@@ -18,7 +18,8 @@ QUALITY = ["underexposed", "overexposed", "motion-blur", "shaky", "soft-focus", 
 SCHEMA = {
     "type": "object",
     "properties": {
-        "desc": {"type": "string", "description": "One sentence, 12-30 words: who/what is on screen and what happens"},
+        "desc": {"type": "string", "maxLength": 220,
+                 "description": "One sentence, at most 30 words: who/what is on screen and what happens"},
         "content": {"type": "string", "enum": CONTENT},
         "shot": {"type": "string", "enum": SHOT},
         "setting": {"type": "string", "enum": SETTING},
@@ -41,7 +42,9 @@ content: the kind of footage. talking-head = one person speaking to camera; inte
 someone off or on camera; podcast = seated conversation with microphones; testimonial = a customer praising
 something; event-* = at an event (stage, crowd, networking, dinner); broll = cutaway footage of things or places;
 finished-edit = an already edited video with titles/graphics; test-shot = camera tests, black or junk.
-quality: only problems you can see. Flat, low-contrast log footage (S-Log, V-Log) is normal, NOT a defect."""
+shot: aerial ONLY for drone or overhead footage; close / medium / wide say how people or subjects are framed.
+desc: describe the footage itself, never the contact sheet, its frames or its header; at most 30 words.
+quality: only problems you can see, each at most once. Flat, low-contrast log footage (S-Log, V-Log) is normal, NOT a defect."""
 
 
 class SetupError(Exception):
@@ -59,7 +62,7 @@ def label(cfg):
 
 def _clean(d):
     d["tags"] = [t.strip().lower().replace(" ", "-") for t in d.get("tags", []) if t.strip()][:12]
-    d["quality"] = [q for q in d.get("quality", []) if q in QUALITY]
+    d["quality"] = list(dict.fromkeys(q for q in d.get("quality", []) if q in QUALITY))
     return d
 
 
@@ -120,7 +123,10 @@ def _local(cfg):
         raise SetupError(f"the local model {model} is not downloaded yet (ollama pull {model})")
 
     def run(sheet, folder, rel):
-        body = {"model": model, "stream": False, "format": SCHEMA, "options": {"temperature": 0},
+        # num_predict stops a run-away answer (seen: the quality list repeating until the request timed out);
+        # num_ctx keeps the model at ~7 GB of RAM instead of the 14 GB its default 128K context takes
+        body = {"model": model, "stream": False, "format": SCHEMA,
+                "options": {"temperature": 0, "num_ctx": 8192, "num_predict": 600, "repeat_penalty": 1.1},
                 "messages": [{"role": "user", "content": PROMPT.format(rel=rel, folder=folder),
                               "images": [base64.b64encode(open(sheet, "rb").read()).decode()]}]}
         req = urllib.request.Request(OLLAMA + "/api/chat", json.dumps(body).encode(), {"Content-Type": "application/json"})
