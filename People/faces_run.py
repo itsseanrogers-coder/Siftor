@@ -330,18 +330,24 @@ def cluster(db, out_dir, knn=None):
         if i not in fixed: groups[d.f(i)].append(i)
     # clean each group: drop faces that don't fit it, then drop groups that don't hold together
     # (piles of side profiles / backs of heads look alike to the model but aren't one person)
-    clean = []
+    clean = []; once = 0
     for g in groups.values():
-        if len(g) < 2: continue
-        for _ in range(2):
-            c = E[g].mean(0); c /= np.linalg.norm(c)
-            g = [i for i in g if float(E[i] @ c) >= FIT]
-            if len(g) < 2: break
-        if len(g) < 2 or len({clip[i] for i in g}) < 2: continue
-        c = E[g].mean(0); c /= np.linalg.norm(c)
-        if float((E[g] @ c).mean()) < COHESION: continue
-        clean.append(g)
+        if len(g) >= 2:
+            for _ in range(2):
+                c = E[g].mean(0); c /= np.linalg.norm(c)
+                g = [i for i in g if float(E[i] @ c) >= FIT]
+                if len(g) < 2: break
+            if len(g) >= 2:
+                c = E[g].mean(0); c /= np.linalg.norm(c)
+                if float((E[g] @ c).mean()) < COHESION: continue
+        if len(g) >= 2 and len({clip[i] for i in g}) >= 2:
+            clean.append(g); continue
+        # seen in one clip only: a clear face is still kept, so the People page can show who was found
+        # (it lists them under "Seen once"); tiny one-off faces are dropped
+        g = [i for i in g if good[i]]
+        if g: clean.append(g); once += 1
     groups = clean
+    if once: log(f"{once} faces seen in one clip only (shown under Seen once)")
     # keep person ids stable across runs: reuse the old id that most of a group's faces had
     used = set(named) & set(ncent); assign = {int(ids[k]): p for k, p in fixed.items()}
     prev_max = db.execute("select coalesce(max(id),0) from people").fetchone()[0]
