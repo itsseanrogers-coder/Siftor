@@ -31,7 +31,7 @@ function compute(){
  for(const k in faces){const [clip,,pid]=faces[k];if(pid==null||!people.has(pid))continue;let a=agg.get(pid);if(!a){a={clips:new Set(),faces:[]};agg.set(pid,a)}a.clips.add(clip);a.faces.push(k);let s=byClip.get(clip);if(!s){s=new Set();byClip.set(clip,s)}s.add(pid)}
  for(const [pid,p] of people){const a=agg.get(pid);if(!a){people.delete(pid);continue}const all=[...a.clips];p.photoIds=all.filter(c=>c.startsWith('ph_'));p.clips=all.length-p.photoIds.length;p.photos=p.photoIds.length;p.faces=a.faces.length;p.faceIds=a.faces;if(!a.faces.includes(String(p.cover)))p.cover=a.faces.slice().sort((x,y)=>(faces[y][3]||0)-(faces[x][3]||0))[0];p.similar=(p.similar||[]).map(root).filter(x=>x!==pid&&people.has(x));p.similar=[...new Set(p.similar)]}
  const list=[...people.values()].sort((a,b)=>(b.clips+b.photos)-(a.clips+a.photos));
- state={ready:true,people:list,byId:people,faces,byClip,photos:base.photos||{},generated:base.generated,scanned:base.scanned}}
+ state={ready:true,people:list,byId:people,faces,byClip,photos:base.photos||{},generated:base.generated,scanned:base.scanned,found:base.found||0}}
 compute();
 function persistLocal(){try{localStorage.setItem(LKEY,JSON.stringify(local))}catch(e){}}
 let syncing=null,lastSync={ok:null,at:0};
