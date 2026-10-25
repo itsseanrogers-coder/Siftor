@@ -168,8 +168,11 @@ def describe_all(db, settings, limit):
     except describe.SetupError as e:
         log(f"describe: {e}"); return
     log(f"describe: {len(todo)} clips with {describe.label(cfg)}")
+    # Claude answers several clips at once; the local model does one at a time (Ollama queues the rest, and
+    # queued requests would hit their timeout), so send it one clip at a time.
+    at_once = 4 if engine == "claude" else 1
     t0, done = time.time(), 0
-    with cf.ThreadPoolExecutor(4) as ex:
+    with cf.ThreadPoolExecutor(at_once) as ex:
         futs = {ex.submit(fn, os.path.join(SHEETS, fo, json.loads(m)["sheet"]), fo, rel): cid for cid, fo, rel, m in todo}
         for fu in cf.as_completed(futs):
             cid = futs[fu]
