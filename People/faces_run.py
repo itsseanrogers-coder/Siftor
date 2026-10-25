@@ -445,6 +445,7 @@ def export(app_dir, out_dir, db):
     out.sort(key=lambda p: -(p["clips"] + p["photos"]))
     used_ph = {v[0] for v in faces.values() if v[2] is not None and v[0].startswith(PHOTO)}
     data = dict(v=1, generated=time.strftime("%Y-%m-%d %H:%M"), scanned=db.execute("select count(*) from done").fetchone()[0],
+                found=db.execute("select count(*) from faces").fetchone()[0],
                 people=out, faces={f: [v[0], v[1], v[2], v[3], crop_of[f]] for f, v in faces.items() if v[2] is not None},
                 photos={k: [photos[k]["id"], photos[k].get("client"), photos[k].get("shoot"), photos[k].get("shoot_date"),
                             photos[k].get("w"), photos[k].get("h"), photos[k].get("set")] for k in used_ph if k in photos},
